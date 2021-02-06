@@ -1,40 +1,36 @@
-var index = require("./index.js");
-var LineEndings = index.LineEndings;
-var transformLineEnding = index.transformLineEnding;
+const { LineEndings, transformLineEnding } = require('./index.js');
 
-var helpText = require("./info.js");
-var help = helpText.help;
-var usage = helpText.usage;
+const { help, usage } = require('./info.js');
 
 // Display help text and exit if when someone passes `-h` or `--help`.
-if (process.argv.includes("-h") || process.argv.includes("--help")) {
+if (process.argv.includes('-h') || process.argv.includes('--help')) {
   console.log(help);
   process.exit(0);
 }
 
 // Gather input from stdin.
-var buffer = "";
+var buffer = '';
 
-process.stdin.on("data", data => {
+process.stdin.on('data', (data) => {
   buffer += data;
 });
 
 // When stdin closes, operate on the gathered input.
-process.stdin.on("end", () => {
+process.stdin.on('end', () => {
   var results;
 
   switch (process.argv.slice(-1)[0]) {
-    case "CR":
+    case 'CR':
       results = transformLineEnding(buffer, LineEndings.CR);
       process.stdout.write(results);
       break;
 
-    case "LF":
+    case 'LF':
       results = transformLineEnding(buffer, LineEndings.LF);
       process.stdout.write(results);
       break;
 
-    case "CRLF":
+    case 'CRLF':
       results = transformLineEnding(buffer, LineEndings.CRLF);
       process.stdout.write(results);
       break;
