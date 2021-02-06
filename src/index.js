@@ -1,16 +1,15 @@
 // Create a tagged template lf`...` that formats text using LF line endings.
 const lf = (strings, ...values) => {
   return strings.reduce((result, literal, index) => {
-    const transformedString = transformLineEnding(strings, LineEndings.LF);
+    const transformedString = transformLineEnding(literal, LineEndings.LF);
     let transformedValue = values[index] != null ? values[index] : '';
+
     if (
       !Object.getOwnPropertySymbols(transformedValue).includes(disableConverter)
     ) {
-      let transformedValue = transformLineEnding(
-        transformedValue,
-        LineEndings.LF
-      );
+      transformedValue = transformLineEnding(transformedValue, LineEndings.LF);
     }
+
     return `${result}${transformedString}${transformedValue}`;
   }, '');
 };
@@ -18,16 +17,15 @@ const lf = (strings, ...values) => {
 // Create a tagged template cr`...` that formats text using CR line endings.
 const cr = (strings, ...values) => {
   return strings.reduce((result, literal, index) => {
-    const transformedString = transformLineEnding(strings, LineEndings.CR);
+    const transformedString = transformLineEnding(literal, LineEndings.CR);
     let transformedValue = values[index] != null ? values[index] : '';
+
     if (
       !Object.getOwnPropertySymbols(transformedValue).includes(disableConverter)
     ) {
-      let transformedValue = transformLineEnding(
-        transformedValue,
-        LineEndings.CR
-      );
+      transformedValue = transformLineEnding(transformedValue, LineEndings.CR);
     }
+
     return `${result}${transformedString}${transformedValue}`;
   }, '');
 };
@@ -35,16 +33,18 @@ const cr = (strings, ...values) => {
 // Create a tagged template crlf`...` that formats text using CRLF line endings.
 const crlf = (strings, ...values) => {
   return strings.reduce((result, literal, index) => {
-    const transformedString = transformLineEnding(strings, LineEndings.CRLF);
+    const transformedString = transformLineEnding(literal, LineEndings.CRLF);
     let transformedValue = values[index] != null ? values[index] : '';
+
     if (
       !Object.getOwnPropertySymbols(transformedValue).includes(disableConverter)
     ) {
-      let transformedValue = transformLineEnding(
+      transformedValue = transformLineEnding(
         transformedValue,
         LineEndings.CRLF
       );
     }
+
     return `${result}${transformedString}${transformedValue}`;
   }, '');
 };
