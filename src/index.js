@@ -1,35 +1,36 @@
 // Create a tagged template lf`...` that formats text using LF line endings.
-var lf = () => {};
+const lf = () => {};
 
 // Create a tagged template cr`...` that formats text using CR line endings.
-var cr = () => {};
+const cr = () => {};
 
 // Create a tagged template crlf`...` that formats text using CRLF line endings.
-var crlf = () => {};
+const crlf = () => {};
 
-var transformLineEnding = (string, lineEnding) => {
-  string = (string != null ? string.toString() : "");
+const transformLineEnding = (string, lineEnding) => {
+  const { replaceCRLF, replaceLF, replaceCR } = LineEndingReplacements;
+  string = string != null ? string.toString() : '';
 
   if (lineEnding === LineEndings.CR) {
-    string = LineEndingReplacements.replaceCRLF(string, "\r");
-    string = LineEndingReplacements.replaceLF(string, "\r");
+    string = replaceCRLF(string, '\r');
+    string = replaceLF(string, '\r');
   } else if (lineEnding === LineEndings.LF) {
-    string = LineEndingReplacements.replaceCRLF(string, "\n");
-    string = LineEndingReplacements.replaceCR(string, "\n");
+    string = replaceCRLF(string, '\n');
+    string = replaceCR(string, '\n');
   } else if (lineEnding === LineEndings.CRLF) {
-    string = LineEndingReplacements.replaceCR(string, "\r\n");
-    string = LineEndingReplacements.replaceLF(string, "\r\n");
+    string = replaceCR(string, '\r\n');
+    string = replaceLF(string, '\r\n');
   }
   return string;
 };
 
-var LineEndings = {
-  CR: "CR",
-  LF: "LF",
-  CRLF: "CRLF"
+const LineEndings = {
+  CR: Symbol('CR'),
+  LF: Symbol('LF'),
+  CRLF: Symbol('CRLF'),
 };
 
-var LineEndingReplacements = {
+const LineEndingReplacements = {
   replaceCR: (string, newEnding) =>
     string.replace(/(\r+)([^\n]|$)/g, (_match, p1, p2) => {
       return `${newEnding.repeat(p1.length)}${p2}`;
@@ -40,7 +41,7 @@ var LineEndingReplacements = {
       return `${p1}${newEnding.repeat(p2.length)}`;
     }),
 
-  replaceCRLF: (string, newEnding) => string.replace(/\r\n/g, `${newEnding}`)
+  replaceCRLF: (string, newEnding) => string.replace(/\r\n/g, `${newEnding}`),
 };
 
 module.exports = {
@@ -48,5 +49,5 @@ module.exports = {
   cr,
   crlf,
   LineEndings,
-  transformLineEnding
+  transformLineEnding,
 };
